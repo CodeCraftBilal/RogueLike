@@ -180,11 +180,8 @@ MonoBehaviour:
   width: 8
   height: 8
   GroundTiles:
-  - {fileID: 11400000, guid: a34c6ef66303c9e468e60315bee86cd6, type: 2}
-  - {fileID: 11400000, guid: 3392f756124c0e0448d72c7018186159, type: 2}
-  - {fileID: 11400000, guid: 173fcdbc69fd7c041bff995071ff5a68, type: 2}
-  - {fileID: 11400000, guid: 16d97e02e5f23304d89e581ce97ebc74, type: 2}
-  - {fileID: 11400000, guid: dbda73620cf142749ba37c44bffe88df, type: 2}
+  - {fileID: 11400000, guid: 5a174b1c733a3394e90acec7545742a4, type: 2}
+  - {fileID: 11400000, guid: f5046fde3102ddf4ab50130cac691840, type: 2}
   WallTiles:
   - {fileID: 11400000, guid: 44b54034fa8c5c646be73c67d2bd0bd9, type: 2}
 --- !u!1 &1436979940
@@ -274,7 +271,7 @@ Transform:
   m_GameObject: {fileID: 1436979940}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 4, y: 4, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

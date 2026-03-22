@@ -3,6 +3,13 @@ using UnityEngine.Tilemaps;
 
 public class BoardManager : MonoBehaviour
 {
+    public class CellData
+    {
+        public bool passable;
+
+    }
+
+    private CellData[,] m_BoardData;
     private Tilemap m_timeMap;
     public int width;
     public int height;
@@ -12,20 +19,23 @@ public class BoardManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        m_timeMap = GetComponentInChildren<Tilemap>();    
-        for(int y = 0; y < height; ++y)
+        m_timeMap = GetComponentInChildren<Tilemap>();
+        m_BoardData = new CellData[width, height];
+        for (int y = 0; y < height; ++y)
         {
-            Debug.Log("y: " + y);
-            for(int x = 0; x < width; ++x)
+            for (int x = 0; x < width; ++x)
             {
                 Tile tile;
-                if(x == 0 || y == 0 || x == width - 1 || y == height - 1)
+                m_BoardData[x, y] = new CellData();
+                if (x == 0 || y == 0 || x == width - 1 || y == height - 1)
                 {
                     tile = WallTiles[Random.Range(0, WallTiles.Length)];
-                    
-                } else
+                    m_BoardData[x, y].passable = false;
+                }
+                else
                 {
                     tile = GroundTiles[Random.Range(0, GroundTiles.Length)];
+                    m_BoardData[x,y].passable = true;
                 }
                 m_timeMap.SetTile(new Vector3Int(x, y, 0), tile);
             }
@@ -35,6 +45,6 @@ public class BoardManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
