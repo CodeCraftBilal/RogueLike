@@ -1,16 +1,17 @@
 using UnityEngine;
 
-public class TurnManager : MonoBehaviour
+public class TurnManager
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private int m_TurnCount;
+
+    public TurnManager()
     {
-        
+        m_TurnCount = 1;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Tick()
     {
-        
+        m_TurnCount +=1;
+        Debug.Log("Current Turn Count " + m_TurnCount);
     }
 }

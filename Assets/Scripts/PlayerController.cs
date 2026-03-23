@@ -20,9 +20,8 @@ public class PlayerController : MonoBehaviour
 
         if (Keyboard.current.upArrowKey.wasPressedThisFrame)
         {
-            Debug.Log("UP Arrow Key is Pressed");
             newCellTarget.y += 1;
-            hasMoved = true; 
+            hasMoved = true;
         }
         else if (Keyboard.current.downArrowKey.wasPressedThisFrame)
         {
@@ -43,16 +42,17 @@ public class PlayerController : MonoBehaviour
         {
             //check if the new position is passable, then move there if it is.
             BoardManager.CellData cellData = m_Board.GetCellData(newCellTarget);
-            if(cellData != null && cellData.passable)
+            if (cellData != null && cellData.passable)
             {
-               MoveTo(newCellTarget);
+                GameManager.Instance.TurnManager.Tick();
+                MoveTo(newCellTarget);
             }
         }
     }
 
-     public void MoveTo(Vector2Int cell)
-   {
-       m_CellPosition = cell;
-       transform.position = m_Board.CellToWorld(m_CellPosition);
-   }
+    public void MoveTo(Vector2Int cell)
+    {
+        m_CellPosition = cell;
+        transform.position = m_Board.CellToWorld(m_CellPosition);
+    }
 }
