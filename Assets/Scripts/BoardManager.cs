@@ -37,17 +37,28 @@ public class BoardManager : MonoBehaviour
                 else
                 {
                     tile = GroundTiles[Random.Range(0, GroundTiles.Length)];
-                    m_BoardData[x,y].passable = true;
+                    m_BoardData[x, y].passable = true;
                 }
                 m_timeMap.SetTile(new Vector3Int(x, y, 0), tile);
             }
         }
-        Player.Spawn(this, new Vector2Int(1,1));
+        Player.Spawn(this, new Vector2Int(1, 1));
     }
 
-public Vector3 CellToWorld(Vector2Int cellIndex)
+    public Vector3 CellToWorld(Vector2Int cellIndex)
     {
         return m_Grid.GetCellCenterWorld((Vector3Int)cellIndex);
+    }
+
+    public CellData GetCellData(Vector2Int cellIndex)
+    {
+        if (cellIndex.x < 0 || cellIndex.x >= width
+            || cellIndex.y < 0 || cellIndex.y >= height)
+        {
+            return null;
+        }
+
+        return m_BoardData[cellIndex.x, cellIndex.y];
     }
     // Update is called once per frame
     void Update()

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,21 +9,50 @@ public class PlayerController : MonoBehaviour
     public void Spawn(BoardManager boardManager, Vector2Int cell)
     {
         m_Board = boardManager;
-        m_CellPosition = cell;
-
-        // Let's move to the right position
-        transform.position = m_Board.CellToWorld(cell);
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
+        MoveTo(cell);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        Vector2Int newCellTarget = m_CellPosition;
+        bool hasMoved = false;
+
+        if (Keyboard.current.upArrowKey.wasPressedThisFrame)
+        {
+            Debug.Log("UP Arrow Key is Pressed");
+            newCellTarget.y += 1;
+            hasMoved = true; 
+        }
+        else if (Keyboard.current.downArrowKey.wasPressedThisFrame)
+        {
+            newCellTarget.y -= 1;
+            hasMoved = true;
+        }
+        else if (Keyboard.current.rightArrowKey.wasPressedThisFrame)
+        {
+            newCellTarget.x += 1;
+            hasMoved = true;
+        }
+        else if (Keyboard.current.leftArrowKey.wasPressedThisFrame)
+        {
+            newCellTarget.x -= 1;
+            hasMoved = true;
+        }
+        if (hasMoved)
+        {
+            //check if the new position is passable, then move there if it is.
+            BoardManager.CellData cellData = m_Board.GetCellData(newCellTarget);
+            if(cellData != null && cellData.passable)
+            {
+               MoveTo(newCellTarget);
+            }
+        }
     }
+
+     public void MoveTo(Vector2Int cell)
+   {
+       m_CellPosition = cell;
+       transform.position = m_Board.CellToWorld(m_CellPosition);
+   }
 }
