@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -6,7 +7,7 @@ public class BoardManager : MonoBehaviour
     public class CellData
     {
         public bool passable;
-
+        public GameObject ContainedObject;
     }
 
     private CellData[,] m_BoardData;
@@ -17,11 +18,16 @@ public class BoardManager : MonoBehaviour
     public Tile[] WallTiles;
     private Grid m_Grid;
     public PlayerController Player;
+    public GameObject FoodPrefab;
+    private List<Vector2Int> m_EmptyCellsList;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Init()
     {
         m_Grid = GetComponentInChildren<Grid>();
         m_timeMap = GetComponentInChildren<Tilemap>();
+        m_EmptyCellsList = new List<Vector2Int>();
+
         m_BoardData = new CellData[width, height];
         for (int y = 0; y < height; ++y)
         {
@@ -38,10 +44,13 @@ public class BoardManager : MonoBehaviour
                 {
                     tile = GroundTiles[Random.Range(0, GroundTiles.Length)];
                     m_BoardData[x, y].passable = true;
+                    m_EmptyCellsList.Add(new Vector2Int(x, y));
                 }
                 m_timeMap.SetTile(new Vector3Int(x, y, 0), tile);
             }
         }
+        m_EmptyCellsList.Remove(new Vector2Int(1, 1));
+        GenerateFood();
     }
 
     public Vector3 CellToWorld(Vector2Int cellIndex)
@@ -59,9 +68,20 @@ public class BoardManager : MonoBehaviour
 
         return m_BoardData[cellIndex.x, cellIndex.y];
     }
-    // Update is called once per frame
-    void Update()
-    {
 
+    void GenerateFood()
+    {
+        int foodCount = 5;
+        for (int i = 0; i < foodCount; ++i)
+        {
+            int randomIndex = Random.Range(0, m_EmptyCellsList.Count);
+            Vector2Int coord = m_EmptyCellsList[randomIndex];
+            m_EmptyCellsList.RemoveAt(randomIndex);
+
+            CellData data = m_BoardData[coord.x, coord.y];
+            GameObject newFood = Instantiate(FoodPrefab);
+            newFood.transform.position = CellToWorld(coord);
+            data.ContainedObject = newFood;
+        }
     }
 }
