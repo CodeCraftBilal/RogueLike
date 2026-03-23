@@ -18,8 +18,10 @@ public class BoardManager : MonoBehaviour
     public Tile[] WallTiles;
     private Grid m_Grid;
     public PlayerController Player;
-    public GameObject FoodPrefab;
+    public GameObject[] FoodPrefab;
     private List<Vector2Int> m_EmptyCellsList;
+    public int minFood = 0;
+    public int maxFood = 5;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Init()
@@ -71,7 +73,7 @@ public class BoardManager : MonoBehaviour
 
     void GenerateFood()
     {
-        int foodCount = 5;
+        int foodCount = Random.Range(minFood, maxFood);
         for (int i = 0; i < foodCount; ++i)
         {
             int randomIndex = Random.Range(0, m_EmptyCellsList.Count);
@@ -79,7 +81,7 @@ public class BoardManager : MonoBehaviour
             m_EmptyCellsList.RemoveAt(randomIndex);
 
             CellData data = m_BoardData[coord.x, coord.y];
-            GameObject newFood = Instantiate(FoodPrefab);
+            GameObject newFood = Instantiate(FoodPrefab[Random.Range(0, FoodPrefab.Length)]);
             newFood.transform.position = CellToWorld(coord);
             data.ContainedObject = newFood;
         }
