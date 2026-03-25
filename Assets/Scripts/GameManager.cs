@@ -33,13 +33,18 @@ public class GameManager : MonoBehaviour
 
     private void OnTurnHappen()
     {
-        m_FoodAmount -= 1;
-        m_FoodLabel.text = "Food : " + m_FoodAmount;
+        ChangeFood(-1);
 
     }
     // Update is called once per frame
     void Update()
     {
 
+    }
+
+    public void ChangeFood(int foodAmount)
+    {
+        m_FoodAmount += foodAmount;
+        m_FoodLabel.text = "Food : " + m_FoodAmount;
     }
 }
