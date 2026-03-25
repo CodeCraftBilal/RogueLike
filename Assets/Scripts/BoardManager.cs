@@ -73,7 +73,10 @@ public class BoardManager : MonoBehaviour
 
     void GenerateFood()
     {
-        int foodCount = Random.Range(minFood, maxFood);
+        try
+        {
+            int foodCount = Random.Range(minFood, maxFood);
+        Debug.Log("foodCount " + FoodPrefab.Length);
         for (int i = 0; i < foodCount; ++i)
         {
             int randomIndex = Random.Range(0, m_EmptyCellsList.Count);
@@ -82,8 +85,16 @@ public class BoardManager : MonoBehaviour
 
             CellData data = m_BoardData[coord.x, coord.y];
             FoodObject newFood = Instantiate(FoodPrefab[Random.Range(0, FoodPrefab.Length)]);
+            Debug.Log("New Food Added " + newFood);
             newFood.transform.position = CellToWorld(coord);
             data.ContainedObject = newFood;
         }
+        }
+        catch (System.Exception)
+        {
+            Debug.Log("Something went wrong ");
+            throw;
+        }
+        
     }
 }
