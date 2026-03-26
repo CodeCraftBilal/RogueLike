@@ -107,7 +107,6 @@ public class BoardManager : MonoBehaviour
 
             m_EmptyCellsList.RemoveAt(randomIndex);
             WallObject newWall = Instantiate(WallPrefab);
-            newWall.Init(coord);
             AddObject(newWall, coord);
         }
     }
