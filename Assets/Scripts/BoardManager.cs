@@ -123,4 +123,9 @@ public class BoardManager : MonoBehaviour
     {
         m_tileMap.SetTile(new Vector3Int(cellIndex.x, cellIndex.y, 0), tile);
     }
+
+    public Tile GetCellTile(Vector2Int cellIndex)
+    {   
+        return m_tileMap.GetTile<Tile>(new Vector3Int(cellIndex.x, cellIndex.y, 0));
+    }
 }
