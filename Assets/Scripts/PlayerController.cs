@@ -43,16 +43,20 @@ public class PlayerController : MonoBehaviour
             //check if the new position is passable, then move there if it is.
             BoardManager.CellData cellData = m_Board.GetCellData(newCellTarget);
 
-            if (cellData.ContainedObject == null)
+            if (cellData != null && cellData.passable)
             {
-                MoveTo(newCellTarget);
                 GameManager.Instance.TurnManager.Tick();
-            }
-            else if (cellData.ContainedObject.PlayerWantsToEnter())
-            {
-                MoveTo(newCellTarget);
-                //Call PlayerEntered AFTER moving the player! Otherwise not in cell yet
-                cellData.ContainedObject.PlayerEntered();
+
+                if (cellData.ContainedObject == null)
+                {
+                    MoveTo(newCellTarget);
+                }
+                else if (cellData.ContainedObject.PlayerWantsToEnter())
+                {
+                    MoveTo(newCellTarget);
+                    //Call PlayerEntered AFTER moving the player! Otherwise not in cell yet
+                    cellData.ContainedObject.PlayerEntered();
+                }
             }
         }
     }
