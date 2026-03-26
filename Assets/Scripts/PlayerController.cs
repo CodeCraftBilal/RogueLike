@@ -38,22 +38,22 @@ public class PlayerController : MonoBehaviour
             newCellTarget.x -= 1;
             hasMoved = true;
         }
-        if(hasMoved)
-{
-   //check if the new position is passable, then move there if it is.
-   BoardManager.CellData cellData = m_Board.GetCellData(newCellTarget);
+        if (hasMoved)
+        {
+            //check if the new position is passable, then move there if it is.
+            BoardManager.CellData cellData = m_Board.GetCellData(newCellTarget);
 
-   if(cellData != null && cellData.passable)
-   {
-       GameManager.Instance.TurnManager.Tick();
-       MoveTo(newCellTarget);
-
-       if (cellData.ContainedObject != null)
-       {
-           cellData.ContainedObject.PlayerEntered();
-       }
-   }
-}
+            if (cellData.ContainedObject == null)
+            {
+                MoveTo(newCellTarget);
+            }
+            else if (cellData.ContainedObject.PlayerWantsToEnter())
+            {
+                MoveTo(newCellTarget);
+                //Call PlayerEntered AFTER moving the player! Otherwise not in cell yet
+                cellData.ContainedObject.PlayerEntered();
+            }
+        }
     }
 
     public void MoveTo(Vector2Int cell)
